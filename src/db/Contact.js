@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
+import { typesForSchema } from "../constants/constants.js";
 
-const types = ['work', 'home', 'personal'];
 const contactSchema = new mongoose.Schema({
 name: {
     type: String,
@@ -21,7 +21,7 @@ isFavourite: {
 contactType: {
     type: String,
     required: false,
-    enum: types,
+    enum: typesForSchema,
     default: 'personal',
 }
 },
