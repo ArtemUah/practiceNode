@@ -9,7 +9,7 @@ export const addContactSchema = Joi.object({
 });
 
 
-export const updateContactSchema = Joi({
+export const updateContactSchema = Joi.object({
     name: Joi.string().min(3).max(20),
     phoneNumber : Joi.string().min(3).max(20),
     email: Joi.string().min(3).max(20),
