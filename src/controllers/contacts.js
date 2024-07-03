@@ -2,17 +2,20 @@ import { deleteContact, getAllContacts, getContactById, postContact, upsertConta
 import createHttpError from 'http-errors';
 import parsPaginationParams from "../utils/parsPaginationParams.js";
 import parsSortParams from "../utils/parsSortParams.js";
+import parsFilterParams from "../utils/parsFilterParams.js";
 
 export const getAllContactsController = async(req,res)=>{
 
     const {page, perPage} = parsPaginationParams(req.query);
     const {sortBy, sortOrder} = parsSortParams(req.query);
+    const filter = parsFilterParams(req.query);
 
     const data = await getAllContacts({
       page,
       perPage,
       sortBy,
-      sortOrder
+      sortOrder,
+      filter
     });
     console.log(data);
     res.json({
@@ -39,7 +42,7 @@ export const getAllContactsController = async(req,res)=>{
 
    export const postContactController = async (req, res) => {
     const result = await postContact(req.body);
-    console.log(req.body);
+
     res.status(201).json({
       status:201,
       message:'Successfully created a contact!',
