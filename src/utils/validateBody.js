@@ -9,7 +9,7 @@ const validateBody = schema => {
             const responseError = createHttpError(400, 'Bad Request', {errors: error.details});
             next(responseError);
         }
-    }
+    };
   return func;
 };
 
