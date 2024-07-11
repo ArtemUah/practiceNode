@@ -3,15 +3,18 @@ import User from "../db/models/User.js";
 
 import bcrypt from 'bcryptjs';
 
+export const findUser = filter => User.findOne(filter);
 
 export const registerNewUser = async (data) => {
     const {email, password} = data;
-    const findUser = await User.findOne({email});
+    const user = await findUser({email});
 
-    if(findUser) {
+    if(user) {
         throw createHttpError(409, 'Email in use');
     };
 
     const hashedPassword =await bcrypt.hash(password, 10);
     return User.create({...data, password:hashedPassword});
 };
+
+
