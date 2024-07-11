@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
 import { findUser, registerNewUser } from "../services/auth.js";
 import bcrypt from 'bcryptjs';
-import createSession from "../services/session.js";
+import {createSession} from "../services/session.js";
 
 export const registerNewUserController = async (req, res) => {
     const result = await registerNewUser(req.body);

@@ -3,8 +3,11 @@ import { deleteContactController, getAllContactsController, getContactByIdContro
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 import validateBody from '../utils/validateBody.js';
 import { addContactSchema, updateContactSchema } from '../validation/contacts-schema.js';
+import authenticate from '../middleware/authenticate.js';
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get('/', ctrlWrapper(getAllContactsController));
 
