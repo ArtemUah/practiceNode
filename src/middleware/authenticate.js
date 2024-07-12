@@ -19,15 +19,17 @@ if(!session) {
     next(createHttpError(401, 'Session not found'));
 };
 
-const accessTokenExpired = Date.now() > session.accessTokenValidUntil;
+const accessTokenExpired = Date.now() > new Date(session.accessTokenValidUntil);
 if(accessTokenExpired) {
     next(createHttpError(401, 'Access token expired'));
 };
 
-const user = findUser({_id:session.userId});
+const user = await findUser({_id:session.userId});
 if(!user) {
     next(createHttpError(401, 'User not found'));
 };
+
+req.user = user;
 next();
 };
 

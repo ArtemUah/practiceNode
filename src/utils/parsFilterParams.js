@@ -6,7 +6,7 @@ const parseBoolean = value => {
 
     const parsedValue = Boolean(value);
     return parsedValue;
-}
+};
 
 const parsFilterParams = ({contactType, isFavourite}) => {
     const parsedContacType = typesForSchema.includes(contactType) ? contactType : null;

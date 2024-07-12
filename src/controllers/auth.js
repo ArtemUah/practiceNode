@@ -5,7 +5,6 @@ import {createSession} from "../services/session.js";
 
 export const registerNewUserController = async (req, res) => {
     const result = await registerNewUser(req.body);
-    console.log(req.body);
     const data = {
         name: result.name,
         email: result.email,
@@ -20,6 +19,7 @@ export const registerNewUserController = async (req, res) => {
 export const loginUserController = async (req, res) => {
     const {email, password} = req.body;
     const user = await findUser({email});
+    console.log(user);
     if(!user) {
         throw createHttpError(401, 'User is not found');
     };

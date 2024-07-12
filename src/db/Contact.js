@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { typesForSchema } from "../constants/constants.js";
 
 const contactSchema = new mongoose.Schema({
@@ -23,7 +23,11 @@ contactType: {
     required: false,
     enum: typesForSchema,
     default: 'personal',
-}
+},
+userId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+},
 },
 {
     timestamps: true,
