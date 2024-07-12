@@ -2,6 +2,7 @@ import {randomBytes} from 'node:crypto';
 import { ACCESS_TOKEN_LIFE, REFRESH_TOKEN_LIFE } from '../constants/index.js';
 import Session from '../db/models/Session.js';
 
+
  export const createSession = async (userId) => {
     await Session.deleteOne({userId});
     const accessToken = randomBytes(30).toString('base64');
@@ -19,3 +20,5 @@ import Session from '../db/models/Session.js';
 };
 
 export const findSession = filter => Session.findOne(filter);
+
+export const deleteSession = filter => Session.deleteOne(filter);

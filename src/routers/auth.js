@@ -1,6 +1,6 @@
 import express from 'express';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
-import { loginUserController, registerNewUserController } from '../controllers/auth.js';
+import { loginUserController, registerNewUserController,refreshController, logoutController } from '../controllers/auth.js';
 import validateBody from '../utils/validateBody.js';
 import { loginSchema, userSchema } from '../validation/user-schema.js';
 
@@ -10,3 +10,7 @@ userRouter.post('/register',validateBody(userSchema), ctrlWrapper(registerNewUse
 
 userRouter.post('/login', validateBody(loginSchema), ctrlWrapper(loginUserController));
 export default userRouter;
+
+userRouter.post('/refresh', ctrlWrapper(refreshController));
+
+userRouter.post('/logout', ctrlWrapper(logoutController));
