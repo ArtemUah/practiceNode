@@ -1,8 +1,8 @@
 import express from 'express';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
-import { loginUserController, registerNewUserController,refreshController, logoutController } from '../controllers/auth.js';
+import { loginUserController, registerNewUserController,refreshController, logoutController, sendResetEmailController, newPasswordController} from '../controllers/auth.js';
 import validateBody from '../utils/validateBody.js';
-import { loginSchema, userSchema } from '../validation/user-schema.js';
+import { loginSchema, newPassword, passwordResetSchema, userSchema } from '../validation/user-schema.js';
 
 const userRouter = express.Router();
 
@@ -14,3 +14,7 @@ export default userRouter;
 userRouter.post('/refresh', ctrlWrapper(refreshController));
 
 userRouter.post('/logout', ctrlWrapper(logoutController));
+
+userRouter.post('/send-reset-email', validateBody(passwordResetSchema), ctrlWrapper(sendResetEmailController));
+
+userRouter.post('/reset-pwd', validateBody(newPassword), ctrlWrapper(newPasswordController));

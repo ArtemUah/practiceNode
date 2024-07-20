@@ -5,6 +5,8 @@ import bcrypt from 'bcryptjs';
 
 export const findUser = filter => User.findOne(filter);
 
+export const updateUser = (filter, data) => User.findOneAndUpdate(filter, data);
+
 export const registerNewUser = async (data) => {
     const {email, password} = data;
     const user = await findUser({email});
