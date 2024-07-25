@@ -8,6 +8,7 @@ import contactsRouter from './routers/contacts.js';
 import errorHandler from './middleware/errorHandler.js';
 import notFoundHandler from './middleware/notFoundHandler.js';
 import userRouter from './routers/auth.js';
+import { PUBLIC_DIR } from './constants/index.js';
 
 const port = env('PORT', '3000');
 
@@ -25,6 +26,7 @@ const app = express();
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.static(PUBLIC_DIR));
 
 app.use('/contacts', contactsRouter);
 app.use('/auth', userRouter);

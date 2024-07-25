@@ -28,6 +28,10 @@ userId: {
     type: Schema.Types.ObjectId,
     required: true,
 },
+photo: {
+    type: String,
+    required: false,
+},
 },
 {
     timestamps: true,

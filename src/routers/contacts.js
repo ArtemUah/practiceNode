@@ -4,6 +4,8 @@ import ctrlWrapper from '../utils/ctrlWrapper.js';
 import validateBody from '../utils/validateBody.js';
 import { addContactSchema, updateContactSchema } from '../validation/contacts-schema.js';
 import authenticate from '../middleware/authenticate.js';
+import upload from '../middleware/upload.js';
+
 
 const contactsRouter = express.Router();
 
@@ -13,7 +15,7 @@ contactsRouter.get('/', ctrlWrapper(getAllContactsController));
 
 contactsRouter.get('/:id', ctrlWrapper(getContactByIdController));
 
-contactsRouter.post('/', validateBody(addContactSchema), ctrlWrapper(postContactController));
+contactsRouter.post('/',upload.single('photo'), validateBody(addContactSchema), ctrlWrapper(postContactController));
 
 contactsRouter.delete('/:id', ctrlWrapper(deleteContactController));
 

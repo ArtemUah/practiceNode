@@ -3,6 +3,9 @@ import createHttpError from 'http-errors';
 import parsPaginationParams from "../utils/parsPaginationParams.js";
 import parsSortParams from "../utils/parsSortParams.js";
 import parsFilterParams from "../utils/parsFilterParams.js";
+import {saveFileToCloudinary} from "../utils/saveFileToCloudinary.js";
+import saveFileToPublicDir from "../utils/saveFileToPublicDir.js";
+
 
 export const getAllContactsController = async(req,res)=>{
     const {_id: userId} = req.user;
@@ -43,9 +46,16 @@ export const getAllContactsController = async(req,res)=>{
 
    export const postContactController = async (req, res) => {
     const {_id: userId} = req.user;
-    console.log(req.body);
-    const result = await postContact({...req.body, userId});
-    console.log(result);
+    const photo = req.file;
+
+    let photoUrl = '';
+    if(photo) {
+     photoUrl = await saveFileToPublicDir(req.file);
+     console.log(photoUrl);
+    };
+
+
+    const result = await postContact({...req.body, userId, photo: photoUrl});
 
     res.status(201).json({
       status:201,

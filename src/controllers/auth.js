@@ -24,9 +24,7 @@ export const registerNewUserController = async (req, res) => {
 
 export const loginUserController = async (req, res) => {
     const {email, password} = req.body;
-    console.log(req.body);
     const user = await findUser({email});
-    console.log(user);
     if(!user) {
         throw createHttpError(401, 'User is not found');
     };
