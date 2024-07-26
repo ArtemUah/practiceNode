@@ -5,6 +5,8 @@ import {createSession, deleteSession, findSession} from "../services/session.js"
 import 'dotenv/config';
 import sendEmail from "../utils/sendEmail.js";
 import jwt from 'jsonwebtoken';
+import {randomBytes} from 'node:crypto';
+import { generateAuthUrl, getGoogleOAuthName, validateGoogleAuthCode } from "../utils/googleOAuth2.js";
 
 const {JWT_SECRET} = process.env;
 
@@ -166,6 +168,59 @@ export const newPasswordController = async(req, res) => {
             status: 200,
             message: "Password has been successfully reset.",
             data: {}
+    });
+
+};
+
+export const getOAuthUrlController = async (req, res) => {
+const googleAuthUrl = generateAuthUrl();
+
+res.status(200).json({
+    status: 200,
+    message: 'Google OAuth URL generated successfully',
+    data: {
+        url: googleAuthUrl,
+    }
+});
+};
+
+export const googleAuthController = async (req, res) => {
+    const {code} = req.body;
+    const ticket = await validateGoogleAuthCode(code);
+    const userPayload = ticket.getPayload();
+
+    if(!userPayload) {
+        throw createHttpError(401, 'Google Auth code is invalid');
+    };
+
+    let user = await findUser({email: userPayload.email});
+
+    if (!user) {
+        const signupData = {
+            email: userPayload.email,
+            password: randomBytes(10),
+            name: getGoogleOAuthName(userPayload)
+        };
+        user = await registerNewUser(signupData);
+    }
+
+    const session = await createSession(user._id);
+
+    res.cookie('refreshToken', session.refreshToken, {
+        httpOnly: true,
+        expired: session.refreshTokenValidUntil,
+    });
+    res.cookie('sessionId', session.userId, {
+        httpOnly: true,
+        expired: session.refreshTokenValidUntil,
+    });
+
+    res.json({
+        status: 200,
+        message: 'Successfully logged in an user!',
+        data: {
+            accessToken: session.accessToken,
+        }
     });
 
 };
